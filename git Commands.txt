@@ -1,0 +1,24 @@
+=> new repo first upload
+  - cd to root
+  - git init
+  - git add .
+  - git commit -m "Initial commit: upload full website"
+  - git remote add origin https://github.com/<your-username>/<repo-name>.git
+  - git push -u origin main
+
+
+=> to update changes to repo
+
+  - git status
+  - git add .
+  - git commit -m 'new commit'
+  - git push origin main
+
+
+=> to clone repo to local machine
+
+  - git clone repoURL
+
+
+
+
