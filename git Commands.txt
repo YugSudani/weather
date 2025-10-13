@@ -20,5 +20,11 @@
   - git clone repoURL
 
 
+=> check difference in files of repo to local
+
+
+ - git remote -v
+ - git fetch origin
+ - git diff --name-status origin/main
 
 
