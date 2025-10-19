@@ -1,0 +1,110 @@
+Docker
+
+
+=> eg. if i built my node server on my laptop and i pushed it to docker than if i want to run that server on 	friends laptop then insted of manually setting environment like downloading node V3.4 , mondodb V6.5 	etc. i can tell him to pull my docker imgae from which he can directly run my node server as container.
+
+=> All this will happen without exposing source code & manualy configuring dependecy
+
+=> Docker images are like blueprints or OS snapshots, and containers are independent, runnable instances 	of those images. You can spin up multiple containers from a single image — each isolated, self-	sufficient, and ready to execute.
+
+
+=> Implementation :
+
+	-> install docker CLI & GUI
+
+	-> to run any image : docker run -it img_name
+		- if exist run it
+		- if not then pulls it from hub.docker.com	
+	
+
+	-> port mapping :
+		- if server is running inside container we can not access from local machine/browser 
+		- we need to map/Expose that port of server to our machine.
+
+		- docker run -it -p 8000:8000 img_name
+				      |	   |
+				localPort|Cnt_server_Port
+
+		- to pass env var :
+			- docker run -it -e PORT=8000 img name
+
+
+	-> execute image :
+			- docker exec -it 23w2ew3(id of container from GUI)
+			- ls
+			- cat index.js
+	
+
+
+=> how to dockerize Node application
+
+	-> create file in node dir with name : "Dockerfile"  [no extension]
+		- script to :
+				- difine OS
+				- install Node
+				- copy source code dir/files		
+				- RUN npm install
+				- start server command
+		eg: 
+			FROM node
+
+			WORKDIR  /app
+
+			COPY package.json package.json
+			COPY package-lock.json package-lock.json
+			
+			RUN npm install
+			
+			COPY index.js index.js
+	
+			ENTRYPOINT [ "node", "index.js" ]	
+
+	-> build image : 
+		-terminal of that dir :
+			- docker build -t img_name_to_give .  
+							     (here: path = " . " for current folder)
+
+	-> now image is on local pc docker GUI
+
+	=> push to hub.docker
+		- create repo on hub.docker
+		- build image with repo-given name : docker build -t yugdocker88/test_node .
+		- docker push name
+		-> optimization : 
+				- .dockignore  (node_modules/)
+				- keep npm install after pkg.json & before main code , so it will only 					  rebulid if dependency is changed , not when code is changed.
+				- copy . .   it will copy all code file
+
+
+=> docker compose :
+	if there is project which needs multiple container to run in order to work then insted of manualy telling wich container to run we can create compose file that will automaticaly run all necessary container.
+
+	-> steps :
+		- create file : "docker-compose.yml"
+
+		- difine config for each required image
+
+		- "docker compse up" : will start all service/image
+
+		- "docker compose down" : to stop all service/image
+
+
+
+=> container networking :
+		we can estblish network bw containers so that they can communicate with each other.
+
+
+=> container volume :
+		- we can assign specific location of local pc to container where it can store data.
+		- data will stay in pc even after container destyos
+
+		eg. docker run -it -v /path/to/local/dir:path/to/use/in/container imgae_name
+
+
+
+
+
+
+
+
+
